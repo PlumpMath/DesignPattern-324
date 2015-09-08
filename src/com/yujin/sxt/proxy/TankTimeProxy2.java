@@ -1,0 +1,1 @@
+package com.yujin.sxt.proxy;		public class TankTimeProxy2 implements com.yujin.sxt.proxy.Moveable {	    Moveable tank;	    public TankTimeProxy2(Moveable tank) { 	        super();	        this.tank = tank;	    }		@Override	public void move(){	}	@Override	public void stop(){	}	}
