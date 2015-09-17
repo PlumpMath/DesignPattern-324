@@ -4,9 +4,9 @@ public class Client {
 
     public static void main(String[] args) {
         Tank t = new Tank();
-        TankLogProxy tlp = new TankLogProxy(t);
-        TankTimeProxy ttp = new TankTimeProxy(tlp);
-        Moveable tank = ttp;
+        TankTimeProxy ttp = new TankTimeProxy(t);
+        TankLogProxy tlp = new TankLogProxy(ttp);
+        Moveable tank = tlp;
         tank.move();
     }
 }
