@@ -6,6 +6,7 @@ package com.yujin.demo;
  * @param <E>
  */
 public interface VVV<E> {
-
+    int a = 10;
+    String str = "ssss";
     E Next();
 }
