@@ -4,7 +4,6 @@ public class Student {
 
     public long id;
     public String name;
-    public double Score;
 
     public Student() {
 
@@ -58,14 +57,6 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getScore() {
-        return Score;
-    }
-
-    public void setScore(double score) {
-        Score = score;
     }
 
 }
