@@ -6,7 +6,7 @@ public class aa {
 		System.out.println("---method1---");
 	}
 	
-	public static void method2() {
+	public void method2() {
 		System.out.println("---method2---");
 	}
 	
