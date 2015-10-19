@@ -12,4 +12,13 @@ public class B extends AbstractB{
         System.out.println("method4...");
     }
 
+    public static void main(String[] args) {
+		for (int i=0,j=0; ; ) {
+			if (i==5) {
+				break;
+			}
+			System.out.println("i: " + i + " j: " + j);
+			i++;
+		}
+	}
 }
