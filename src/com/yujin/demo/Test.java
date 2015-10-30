@@ -4,7 +4,7 @@ public class Test extends Object {
 
     public static final Student stu = new Student();
     public static void main(String[] args) {
-        aaa a = new aaa();
+        AAA a = new AAA();
         a.method1();
         a.method2();
         System.out.println("before: " + stu.id);
