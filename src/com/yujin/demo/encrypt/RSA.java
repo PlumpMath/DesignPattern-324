@@ -1,5 +1,12 @@
 package com.yujin.demo.encrypt;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -14,26 +21,32 @@ import java.util.HashMap;
 import javax.crypto.Cipher;
 
 public class RSA {
+    
+    static HashMap<String, Object> map = null;
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        HashMap<String, Object> map = null;
         try {
             map = RSAUtils.getKeys();
         } catch (NoSuchAlgorithmException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+//        save("e:\\aaa.txt");//将生成的公钥和私钥保存起来，以便下次使用。
+//        open("e:\\aaa.txt");//从文件读取公钥和私钥，用来解密文件。
         // 生成公钥和私钥
         RSAPublicKey publicKey = (RSAPublicKey) map.get("public");
         RSAPrivateKey privateKey = (RSAPrivateKey) map.get("private");
 
         // 模
         String modulus = publicKey.getModulus().toString();
+        System.out.println("模: " + modulus);
         // 公钥指数
         String public_exponent = publicKey.getPublicExponent().toString();
+        System.out.println("公钥指数: " + public_exponent);
         // 私钥指数
         String private_exponent = privateKey.getPrivateExponent().toString();
+        System.out.println("私钥指数: " + private_exponent);
         // 明文
         String ming = "123456789";
         // 使用模和指数生成公钥和私钥
@@ -51,10 +64,58 @@ public class RSA {
             e.printStackTrace();
         }
     }
+    
+    private static void save(String path){  
+        FileOutputStream fos = null; 
+        ObjectOutputStream oos = null; 
+        File f = new File(path); 
+        try { 
+            fos = new FileOutputStream(f); 
+            oos = new ObjectOutputStream(fos); 
+            oos.writeObject(map);    //括号内参数为要保存java对象 
+        } catch (FileNotFoundException e) { 
+            e.printStackTrace(); 
+        } catch (IOException e) { 
+            e.printStackTrace(); 
+        }finally{ 
+            try { 
+                oos.close(); 
+                fos.close(); 
+            } catch (IOException e) { 
+                e.printStackTrace(); 
+            } 
+        }    
+    } 
+     
+    private static void open(String path){ 
+        FileInputStream fis = null; 
+        ObjectInputStream ois = null;    
+        File f = new File(path); 
+        try { 
+            fis = new FileInputStream(f); 
+            ois = new ObjectInputStream(fis); 
+//            javaObject object = (javaObject)ois.readObject();//强制类型转换 
+//            myPanel.repaint(); 
+            HashMap<String, Object> map = (HashMap)ois.readObject();
+            RSA.map = map;
+        } catch (FileNotFoundException e) { 
+            e.printStackTrace(); 
+        } catch (IOException e) { 
+            e.printStackTrace(); 
+        } catch (ClassNotFoundException e) { 
+            e.printStackTrace(); 
+        }finally{ 
+            try { 
+                ois.close(); 
+                fis.close(); 
+            } catch (IOException e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
 }
 
 class RSAUtils {
-
     /**
      * 生成公钥和私钥
      * 
@@ -79,10 +140,8 @@ class RSAUtils {
      * 注意：【此代码用了默认补位方式，为RSA/None/PKCS1Padding，不同JDK默认的补位方式可能不同，如Android默认是RSA
      * /None/NoPadding】
      * 
-     * @param modulus
-     *            模
-     * @param exponent
-     *            指数
+     * @param modulus 模
+     * @param exponent 指数
      * @return
      */
     public static RSAPublicKey getPublicKey(String modulus, String exponent) {
@@ -103,10 +162,8 @@ class RSAUtils {
      * 注意：【此代码用了默认补位方式，为RSA/None/PKCS1Padding，不同JDK默认的补位方式可能不同，如Android默认是RSA
      * /None/NoPadding】
      * 
-     * @param modulus
-     *            模
-     * @param exponent
-     *            指数
+     * @param modulus 模
+     * @param exponent 指数
      * @return
      */
     public static RSAPrivateKey getPrivateKey(String modulus, String exponent) {
