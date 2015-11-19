@@ -4,9 +4,18 @@ public class Test extends Object {
 
     public static final Student stu = new Student();
     public static void main(String[] args) {
-        AAA a = new AAA();
+        AAA a = new AAA(){
+            public void method3() {
+                System.out.println("inner class method3");
+            }
+            
+            public void method4() {
+                System.out.println("inner class method4");
+            }
+        };
         a.method1();
         a.method2();
+        
         System.out.println("before: " + stu.id);
         stu.id = 10001;
         System.out.println("after: " + stu.id);

@@ -40,6 +40,25 @@ public class AA {
 //        bb = bb^aa;
 //        aa = aa^bb;
 //        System.out.println(aa + " " + bb);
+        /**
+         * 测试StringBuffer能输出多少字符串
+         */
+        StringBuffer buf = new StringBuffer(1024*1024*10);
+        for (int i = 0; i < 1024*10; i++) {
+            System.out.println("buf: " + i);
+            buf.append("buf"+ i + "");
+        }
+        System.out.print("buf: " + buf.toString());
+        System.out.print("\n\n");
+        //System.out.print("buf reverse: " + buf.reverse());
+        String encoding = System.getProperty("file.encoding", "UTF-8");
+        System.out.print("encoding: " + encoding);
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        // TODO Auto-generated method stub
+        super.finalize();
     }
     
 }
@@ -47,6 +66,9 @@ public class AA {
 class Animal {
     int id;
     String fourColor;
+    public Animal() {
+        
+    }
     public void scream() {
         System.out.println("animal are scream...");
     }
@@ -71,6 +93,9 @@ class Dog extends Animal implements A, AAAA{
     int wight;
     int height;
     String eyeColor;
+    public Dog() {
+        super();
+    }
     public void scream() {
         System.out.println("Dog are scream...");
     }
@@ -81,7 +106,7 @@ class Dog extends Animal implements A, AAAA{
     /**
      * The method staticMethod() of type Dog must override or implement a supertype method
      * 证明静态方法就没有重写一说，静态的东西就没有实例对象，
-     * 没有实例对角哪来的多态，没有多态哪儿来的继承，没继承哪来的重写一说。
+     * 没有实例对角哪来的多态。
      * @return
      */
 //    @Override
@@ -89,7 +114,7 @@ class Dog extends Animal implements A, AAAA{
 //        System.out.println("Dog static method...");
 //        return 1;
 //    }
-//    
+    
     @Override
     public void start() {
         // TODO Auto-generated method stub
