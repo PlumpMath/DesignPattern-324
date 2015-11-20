@@ -24,98 +24,7 @@ public class RSA {
     
     static HashMap<String, Object> map = null;
 
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        try {
-            map = RSAUtils.getKeys();
-        } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-//        save("e:\\aaa.txt");//将生成的公钥和私钥保存起来，以便下次使用。
-//        open("e:\\aaa.txt");//从文件读取公钥和私钥，用来解密文件。
-        // 生成公钥和私钥
-        RSAPublicKey publicKey = (RSAPublicKey) map.get("public");
-        RSAPrivateKey privateKey = (RSAPrivateKey) map.get("private");
 
-        // 模
-        String modulus = publicKey.getModulus().toString();
-        System.out.println("模: " + modulus);
-        // 公钥指数
-        String public_exponent = publicKey.getPublicExponent().toString();
-        System.out.println("公钥指数: " + public_exponent);
-        // 私钥指数
-        String private_exponent = privateKey.getPrivateExponent().toString();
-        System.out.println("私钥指数: " + private_exponent);
-        // 明文
-        String ming = "123456789";
-        // 使用模和指数生成公钥和私钥
-        RSAPublicKey pubKey = RSAUtils.getPublicKey(modulus, public_exponent);
-        RSAPrivateKey priKey = RSAUtils.getPrivateKey(modulus, private_exponent);
-        try {
-            // 加密后的密文
-            String mi = RSAUtils.encryptByPublicKey(ming, pubKey);
-            System.err.println("密文: " + mi);
-            // 解密后的明文
-            ming = RSAUtils.decryptByPrivateKey(mi, priKey);
-            System.err.println("明文: " + ming);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    
-    private static void save(String path){  
-        FileOutputStream fos = null; 
-        ObjectOutputStream oos = null; 
-        File f = new File(path); 
-        try { 
-            fos = new FileOutputStream(f); 
-            oos = new ObjectOutputStream(fos); 
-            oos.writeObject(map);    //括号内参数为要保存java对象 
-        } catch (FileNotFoundException e) { 
-            e.printStackTrace(); 
-        } catch (IOException e) { 
-            e.printStackTrace(); 
-        }finally{ 
-            try { 
-                oos.close(); 
-                fos.close(); 
-            } catch (IOException e) { 
-                e.printStackTrace(); 
-            } 
-        }    
-    } 
-     
-    private static void open(String path){ 
-        FileInputStream fis = null; 
-        ObjectInputStream ois = null;    
-        File f = new File(path); 
-        try { 
-            fis = new FileInputStream(f); 
-            ois = new ObjectInputStream(fis); 
-//            javaObject object = (javaObject)ois.readObject();//强制类型转换 
-//            myPanel.repaint(); 
-            HashMap<String, Object> map = (HashMap)ois.readObject();
-            RSA.map = map;
-        } catch (FileNotFoundException e) { 
-            e.printStackTrace(); 
-        } catch (IOException e) { 
-            e.printStackTrace(); 
-        } catch (ClassNotFoundException e) { 
-            e.printStackTrace(); 
-        }finally{ 
-            try { 
-                ois.close(); 
-                fis.close(); 
-            } catch (IOException e) { 
-                e.printStackTrace(); 
-            } 
-        } 
-    } 
-}
-
-class RSAUtils {
     /**
      * 生成公钥和私钥
      * 
@@ -202,7 +111,28 @@ class RSAUtils {
         }
         return mi;
     }
-
+    /**
+     * 私钥加密
+     * @param data
+     * @param privateKey
+     * @return
+     * @throws Exception
+     */
+    public static String encryptByPrivateKey(String data, RSAPrivateKey privateKey) 
+            throws Exception {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+        //模长
+        int key_len = privateKey.getModulus().bitLength()/8;
+        //加密数据长度<=模长-11
+        String[] datas = splitString(data, key_len-11);
+        String mi = "";
+        // 如果明文长度大于模长-11则要分组加密码
+        for (String str : datas) {
+            mi += bcd2Str(cipher.doFinal(str.getBytes()));
+        }
+        return mi;
+    }
     /**
      * 私钥解密
      * 
@@ -229,6 +159,30 @@ class RSAUtils {
         return ming;
     }
 
+    /**
+     * 公钥解密
+     * @param data
+     * @param publicKey
+     * @return
+     * @throws Exception
+     */
+    public static String decryptByPublicKey(String data, RSAPublicKey publicKey) 
+            throws Exception {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, publicKey);
+        // 模长
+        int key_len = publicKey.getModulus().bitLength() / 8;
+        byte[] bytes = data.getBytes();
+        byte[] bcd = ASCII_To_BCD(bytes, bytes.length);
+        System.err.println(bcd.length);
+        // 如果密文长度大于模长则要分组解密
+        String ming = "";
+        byte[][] arrays = splitArray(bcd, key_len);
+        for (byte[] arr : arrays) {
+            ming += new String(cipher.doFinal(arr));
+        }
+        return ming;
+    }
     /**
      * ASCII码转BCD码
      * 
@@ -320,4 +274,97 @@ class RSAUtils {
         return arrays;
     }
 
+
+    
+    
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        try {
+            map = getKeys();
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+//        save("e:\\aaa.txt");//将生成的公钥和私钥保存起来，以便下次使用。
+//        open("e:\\aaa.txt");//从文件读取公钥和私钥，用来解密文件。
+        // 生成公钥和私钥
+        RSAPublicKey publicKey = (RSAPublicKey) map.get("public");
+        RSAPrivateKey privateKey = (RSAPrivateKey) map.get("private");
+
+        // 模
+        String modulus = publicKey.getModulus().toString();
+        System.out.println("模: " + modulus);
+        // 公钥指数
+        String public_exponent = publicKey.getPublicExponent().toString();
+        System.out.println("公钥指数: " + public_exponent);
+        // 私钥指数
+        String private_exponent = privateKey.getPrivateExponent().toString();
+        System.out.println("私钥指数: " + private_exponent);
+        // 明文
+        String ming = "123456789";
+        // 使用模和指数生成公钥和私钥
+        RSAPublicKey pubKey = getPublicKey(modulus, public_exponent);
+        RSAPrivateKey priKey = getPrivateKey(modulus, private_exponent);
+        try {
+            // 加密后的密文
+            String mi = encryptByPublicKey(ming, pubKey);
+            System.err.println("密文: " + mi);
+            // 解密后的明文
+            ming = decryptByPrivateKey(mi, priKey);
+            System.err.println("明文: " + ming);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void save(String path){  
+        FileOutputStream fos = null; 
+        ObjectOutputStream oos = null; 
+        File f = new File(path); 
+        try { 
+            fos = new FileOutputStream(f); 
+            oos = new ObjectOutputStream(fos); 
+            oos.writeObject(map);    //括号内参数为要保存java对象 
+        } catch (FileNotFoundException e) { 
+            e.printStackTrace(); 
+        } catch (IOException e) { 
+            e.printStackTrace(); 
+        }finally{ 
+            try { 
+                oos.close(); 
+                fos.close(); 
+            } catch (IOException e) { 
+                e.printStackTrace(); 
+            } 
+        }    
+    } 
+     
+    private static void open(String path){ 
+        FileInputStream fis = null; 
+        ObjectInputStream ois = null;    
+        File f = new File(path); 
+        try { 
+            fis = new FileInputStream(f); 
+            ois = new ObjectInputStream(fis); 
+//            javaObject object = (javaObject)ois.readObject();//强制类型转换 
+//            myPanel.repaint(); 
+            HashMap<String, Object> map = (HashMap)ois.readObject();
+            RSA.map = map;
+        } catch (FileNotFoundException e) { 
+            e.printStackTrace(); 
+        } catch (IOException e) { 
+            e.printStackTrace(); 
+        } catch (ClassNotFoundException e) { 
+            e.printStackTrace(); 
+        }finally{ 
+            try { 
+                ois.close(); 
+                fis.close(); 
+            } catch (IOException e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
 }
+

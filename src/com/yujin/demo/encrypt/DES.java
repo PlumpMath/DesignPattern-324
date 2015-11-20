@@ -126,8 +126,7 @@ public class DES {
     /**
      * 解密字符串
      * 
-     * @param strIn
-     *            需解密的字符串
+     * @param strIn 需解密的字符串
      * @return 解密后的字符串
      */
     public String decrypt(String strIn) throws Exception {
