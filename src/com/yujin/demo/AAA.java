@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AAA extends AA {
+public class AAA<A, B> extends AA {
 
     @Override
     public void method1() {

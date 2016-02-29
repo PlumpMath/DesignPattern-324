@@ -1,8 +1,10 @@
 package com.yujin.demo;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 
-public class AA {
+public class AA<A, B, C> {
 
     public void method1() {
         System.out.println("---method1---");
@@ -52,9 +54,43 @@ public class AA {
         System.out.print("\n\n");
         //System.out.print("buf reverse: " + buf.reverse());
         String encoding = System.getProperty("file.encoding", "UTF-8");
-        System.out.print("encoding: " + encoding);
+        System.out.print("encoding: " + encoding + "\n");
+        System.out.println(233%11);
+        
+        for (int i = 0; i <= 0 ; i++) {
+            System.out.println("----" + i + "----");
+        }
+        
+        String[] str = {"Aa", "Bb", "Cc", "Dd", "Ee", "Ff", "Gg"};
+        printArray(str);
+        int location = 2;
+        int size = str.length - location -1;
+        System.arraycopy(str, location + 1, str, location, size);
+        printArray(str);
+        
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("a", "Aa");
+        map.put("b", "Bb");
+        map.put("c", "Cc");
+        map.put("d", "Dd");
+        map.put("e", "Ee");
+        map.put("f", "Ff");
+        map.put("g", "Gg");
+        map.put("h", "Hh");
+        map.put("j", "Jj");
+        Collection co = map.values();
+        printArray(co.toArray());
+        Set set = map.keySet();
+        printArray(set.toArray());
     }
-
+    
+    public static void printArray(Object[] obj) {
+        for (int i = 0; i < obj.length; i++) {
+            System.out.print(obj[i]);
+        }
+        System.out.println("");
+    }
+    
     @Override
     protected void finalize() throws Throwable {
         // TODO Auto-generated method stub

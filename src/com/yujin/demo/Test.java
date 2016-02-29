@@ -1,5 +1,8 @@
 package com.yujin.demo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Test extends Object {
 
     public static final Student stu = new Student();
@@ -33,7 +36,11 @@ public class Test extends Object {
         System.out.println("stu1 hashCode: " + stu1.hashCode());
         System.out.println("stu2 hashCode: " + stu2.hashCode());
         System.out.println(stu1.equals(stu2));
+        
+        //测试字符串匹配
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]{5}");
+        String body="测试验证码2346ds";
+        Matcher matcher = pattern.matcher(body);
+        System.out.println(matcher.group().substring(0, 5));
     }
-    
-    
 }
