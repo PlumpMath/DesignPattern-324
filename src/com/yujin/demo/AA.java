@@ -1,5 +1,6 @@
 package com.yujin.demo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
@@ -67,7 +68,9 @@ public class AA<A, B, C> {
         int size = str.length - location -1;
         System.arraycopy(str, location + 1, str, location, size);
         printArray(str);
-        
+        /**
+         * 演示HashMap的Keys和Values可单独获取到以
+         */
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("a", "Aa");
         map.put("b", "Bb");
@@ -82,6 +85,9 @@ public class AA<A, B, C> {
         printArray(co.toArray());
         Set set = map.keySet();
         printArray(set.toArray());
+        
+        ArrayList arrayList = new ArrayList();
+        
     }
     
     public static void printArray(Object[] obj) {
@@ -95,6 +101,14 @@ public class AA<A, B, C> {
     protected void finalize() throws Throwable {
         // TODO Auto-generated method stub
         super.finalize();
+    }
+    
+    private void privateMethod() {
+        
+    }
+    
+    protected void protectedMethod() {
+        
     }
     
 }
