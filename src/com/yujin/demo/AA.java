@@ -17,7 +17,7 @@ public class AA<A, B, C> {
     
     public static void main(String[] args) {
         System.out.println("main");
-        Animal animal = new Dog();
+        Animal  animal = new Dog();
         animal.scream();
         Dog dog = new Dog();
         dog.scream();
@@ -26,7 +26,7 @@ public class AA<A, B, C> {
          * 子类重写父类的方法，即使将子类向上转型成父类对象，再用转型后的父类对象调用父类的方法，
          * 其实调用的还是子类重写的方法，有种将父类方法擦除的感觉。
          */
-        Animal animal2 = (Animal)dog;
+        Animal  animal2 = (Animal)dog;
         animal2.scream();
         Animal.staticMethod();
         /**
@@ -88,6 +88,8 @@ public class AA<A, B, C> {
         
         ArrayList arrayList = new ArrayList();
         
+        System.out.println();
+        
     }
     
     public static void printArray(Object[] obj) {
@@ -134,8 +136,22 @@ class Animal {
      * @return
      */
     public static int staticMethod() {
-        System.out.println("Animal static method...");
+        System.out.println("AnimalCat static method...");
         return -1;
+    }
+    /**
+     * JavaScript中数组遍历
+     * var data = [1, 2, 3, 4, 5];
+     * var sumOfSquare = 0;
+     * data.forEach(function(x){
+     *      sumOfSquare += x;
+     * });
+     * 我就在想java能不能像上面这样遍历对象中的属性呢？
+     * 有必要在Object中加一个forEache方法呢？想想还是没必要！
+     * @param an
+     */
+    public static void forEach(AnimalCat an) {
+        
     }
 }
 

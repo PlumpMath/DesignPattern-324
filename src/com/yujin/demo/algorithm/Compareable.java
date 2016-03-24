@@ -6,7 +6,7 @@ public interface Compareable {
      * 1  >
      * 0  =
      * -1 <
-     * @param obj
+     * @param value
      * @return
      */
     public int compareTo(Object obj);

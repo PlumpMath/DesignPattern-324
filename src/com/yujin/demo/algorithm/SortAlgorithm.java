@@ -19,7 +19,7 @@ public class SortAlgorithm {
 
     /**
      * 插入排序
-     * @param obj
+     * @param value
      */
     public static void insertSort(Object[] obj) {
         for (int i = 0; i < obj.length - 1; i++) {
@@ -36,7 +36,7 @@ public class SortAlgorithm {
     
     /**
      * 希尔排序-是插入排序一种更高效的改进版本
-     * @param obj
+     * @param value
      */
     public static void shellSort(Compareable[] obj) {
         int gap = obj.length / 2;
@@ -58,7 +58,7 @@ public class SortAlgorithm {
     
     /**
      * 选择排序
-     * @param obj
+     * @param value
      */
     public static void selectSort(Compareable[] obj) {
         Compareable temp;
@@ -81,7 +81,7 @@ public class SortAlgorithm {
     
     /**
      * 冒泡排序
-     * @param obj
+     * @param value
      */
     public static void bubbleSort(Compareable[] obj) {
         for (int i = 0; i < obj.length; i++) {
