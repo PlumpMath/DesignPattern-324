@@ -24,4 +24,6 @@ public class Finalize {
         super.finalize();
         System.out.println("finalize方法被调用!");
     }
+    
+    
 }
