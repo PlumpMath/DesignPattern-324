@@ -41,6 +41,14 @@ public class Test extends Object {
         Pattern pattern = Pattern.compile("[a-zA-Z0-9]{5}");
         String body="测试验证码2346ds";
         Matcher matcher = pattern.matcher(body);
-        System.out.println(matcher.group().substring(0, 5));
+        //System.out.println(matcher.group().substring(0, 5));
+        
+        String str1 = "snap.dev.cloud.sengled.com";
+        String str2 = "https://null:null/user/";
+        System.out.println("str1是否包含：" + str1.contains("cloud.sengled"));
+        System.out.println("str2是否包含：" + str2.contains("cloud.sengled"));
+        
+        String str3 = "https://jx1.element.test.cloud.sengled.cn:9000/zigbee/";
+        System.out.println(str3.replace(":8000", ":9000"));
     }
 }
